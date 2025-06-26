@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
@@ -61,10 +62,15 @@ class User extends Authenticatable
         );
     }
 
-    public function userName(): \Attribute
+    public function userName(): Attribute
     {
-        return Attribute::maek(
+        return Attribute::make(
             set: fn($value) => Str::slug($value)
         );
+    }
+
+    public function scopeIsAdmin($query)
+    {
+        return $query->where('IsAdmin', true);
     }
 }
